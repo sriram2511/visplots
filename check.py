@@ -5,50 +5,11 @@ import seaborn as sns
 import numpy as np
 from scipy.stats import skew
 
-
-def check_password():
-    """Returns `True` if the user had a correct password."""
-
-    def login_form():
-        """Form with widgets to collect user information"""
-        with st.form("Credentials"):
-            st.text_input("Username", key="username")
-            st.text_input("Password", type="password", key="password")
-            st.form_submit_button("Log in", on_click=password_entered)
-
-    def password_entered():
-        """Checks whether a password entered by the user is correct."""
-        if st.session_state["username"] in st.secrets[
-            "passwords"
-        ] and hmac.compare_digest(
-            st.session_state["password"],
-            st.secrets.passwords[st.session_state["username"]],
-        ):
-            st.session_state["password_correct"] = True
-            del st.session_state["password"]  # Don't store the username or password.
-            del st.session_state["username"]
-        else:
-            st.session_state["password_correct"] = False
-
-    # Return True if the username + password is validated.
-    if st.session_state.get("password_correct", False):
-        return True
-
-    # Show inputs for username + password.
-    login_form()
-    if "password_correct" in st.session_state:
-        st.error("😕 User not known or password incorrect")
-    return False
-
-
-if not check_password():
-    st.stop()
 # Load data
 df = pd.read_csv('chroma.csv', low_memory=False)
 df = df[~(df['distance'] + df['speed'] + df['rotational'] +
           df['horizontal'] + df['vertical'] + df['coverage'] == 0)]
 
-# Define Streamlit app
 st.title('Chroma Analysis')
 selected_process = st.selectbox("Choose any of the following", df['process'].unique())
 if selected_process in df['process'].unique():
@@ -85,20 +46,20 @@ for name, group in grouped_df:
             found_pass = True
 result_df = pd.DataFrame(list(fail_count_before_pass.items()), columns=['USERNAME', 'FailCountBeforePass'])
 
-    # Plotting
+
 st.subheader('Pie Chart and Distribution Plots')
 
     # Set up the figure with a 1-row, 2-column grid
 fig, axs = plt.subplots(1, 3, figsize=(15, 5))
 
-# Plot 1: Pie Chart (takes half the width)
+    # Plot 1: Pie Chart (takes half the width)
 labels = ['Fail', 'Pass']
 sizes = [result_pivot[result_pivot['pass'] == 0].shape[0], result_pivot[result_pivot['pass'] >= 1].shape[0]]
 axs[0].pie(sizes, labels=labels, colors=['#ff9999', '#66b3ff'], autopct='%1.1f%%', startangle=90)
 axs[0].legend(['pass', 'fail'])
 axs[0].set_title('Pie Chart')
 
-# Plot 2: Histogram
+    # Plot 2: Histogram
 sns.histplot(x=result_df['FailCountBeforePass'], kde=True, fill=True, ax=axs[1])
 axs[1].set_title('Histogram')
 
@@ -130,8 +91,6 @@ elif skewness_value < 0:
     st.text("Possible outliers: {}".format(left_tail_outliers))
 else:
     st.text("The distribution is perfectly symmetrical.")
-
 st.text("Most users have low fail counts before the 1st pass.")
 st.text("Most no of students have count of {}".format(result_df['FailCountBeforePass'].mode().values[0]))
 st.text(f"Average attempts before passing is {int(result_df['FailCountBeforePass'].mean())}")
-
