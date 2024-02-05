@@ -51,9 +51,9 @@ if not check_password():
 st.title('Chroma Analysis')
 selected_process = st.selectbox("Choose any of the following", df['process'].unique())
 if selected_process in df['process'].unique():
-selected_process_df = df[df['process'] == selected_process]
+    selected_process_df = df[df['process'] == selected_process]
 else:
-selected_process_df = df
+    selected_process_df = df
 
 workpiece = selected_process_df['workpiece'].unique()
 selected_workpiece = st.selectbox('Select Workpiece', workpiece)
