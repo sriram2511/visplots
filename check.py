@@ -4,6 +4,7 @@ import matplotlib.pyplot as plt
 import seaborn as sns
 import numpy as np
 from scipy.stats import skew
+import hmac
 def check_password():
     """Returns `True` if the user had a correct password."""
 
