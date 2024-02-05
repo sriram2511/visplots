@@ -5,10 +5,7 @@ import seaborn as sns
 import numpy as np
 from scipy.stats import skew
 
-# Load data
-df = pd.read_csv('chroma.csv', low_memory=False)
-df = df[~(df['distance'] + df['speed'] + df['rotational'] +
-          df['horizontal'] + df['vertical'] + df['coverage'] == 0)]
+
 def check_password():
     """Returns `True` if the user had a correct password."""
 
@@ -46,6 +43,10 @@ def check_password():
 
 if not check_password():
     st.stop()
+# Load data
+df = pd.read_csv('chroma.csv', low_memory=False)
+df = df[~(df['distance'] + df['speed'] + df['rotational'] +
+          df['horizontal'] + df['vertical'] + df['coverage'] == 0)]
 
 # Define Streamlit app
 st.title('Chroma Analysis')
