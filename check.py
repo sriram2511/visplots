@@ -92,7 +92,7 @@ fig, axs = plt.subplots(1, 2, figsize=(15, 9))
     # Plot 1: Pie Chart (takes half the width)
 labels = ['Fail', 'Pass']
 sizes = [result_pivot[result_pivot['pass'] == 0].shape[0], result_pivot[result_pivot['pass'] >= 1].shape[0]]
-axs[0].pie(sizes, labels=labels, colors=['#ff9999', '#66b3ff'], autopct='%1.1f%%', startangle=90)
+axs[0].pie(sizes, labels=labels, colors=[ '#66b3ff','#ff9999'], autopct='%1.1f%%', startangle=90)
 axs[0].legend(['pass', 'fail'])
 axs[0].set_title('Pie Chart')
 
