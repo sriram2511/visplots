@@ -77,7 +77,7 @@ selected_joint_position_type = st.selectbox('Select Joint WELDPOSITION type', a,
 st.write(f"Selected Weld Process: {selected_joint_position_type}")
 gmaw_butt_join_df = gmaw_butt_df[gmaw_butt_df['WELDPOSITION'] == selected_joint_position_type]
 
-# plot_distribution(gmaw_butt_join_df,'WELDPOSITION',f'Distribution of jointype (BUTT, TEE, LAP) in {selected_weld_process}and in{selected_joint_type} in {selected_joint_position_type} position ')
+# plot_distribution(gmaw_butt_join_df,'WELDPOSITION',f'Distribution of jointype (BUTT, TEE, LAP) in {selected_weld_process} and in {selected_joint_type} in {selected_joint_position_type} position ')
 # st.pyplot(plt)
 unique_df = gmaw_butt_join_df.groupby(['LESSON_NUM','result'])['USERNAME'].nunique().reset_index()
 plt.figure(figsize = (8,5),dpi= 300)
@@ -85,9 +85,9 @@ order = ['pass', 'fail']
 ax = sns.barplot(x='LESSON_NUM', y='USERNAME', hue='result',
                  data=unique_df,hue_order =['pass'])
 ax.bar_label(ax.containers[0]);
-plt.title('Lesson Performance')
+plt.title('Passed students lesson number wise')
 plt.xlabel('Lesson Number')
-plt.ylabel('Total Usernames')
+plt.ylabel('No of students')
 plt.legend(title='Result', loc='upper right')
 plt.show()
 st.pyplot(plt)
