@@ -87,7 +87,7 @@ result_df = pd.DataFrame(list(fail_count_before_pass.items()), columns=['USERNAM
 st.subheader('Pie Chart and Distribution Plots')
 
     # Set up the figure with a 1-row, 2-column grid
-fig, axs = plt.subplots(1, 3, figsize=(15, 5))
+fig, axs = plt.subplots(1, 2, figsize=(15, 9))
 
     # Plot 1: Pie Chart (takes half the width)
 labels = ['Fail', 'Pass']
