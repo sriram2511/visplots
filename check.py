@@ -131,3 +131,5 @@ else:
 st.text("Most users have low fail counts before the 1st pass.")
 st.text("Most no of students have count of {}".format(result_df['FailCountBeforePass'].mode().values[0]))
 st.text(f"Average attempts before passing is {int(result_df['FailCountBeforePass'].mean())}")
+result_df_no_outliers = result_df[(result_df['FailCountBeforePass'] >= lower_bound) & (result_df['FailCountBeforePass'] <= upper_bound)]
+st.text(f"After Removing Outliets Average attempts before passing is {int(result_df_no_outliers['FailCountBeforePass'].mean())}")
