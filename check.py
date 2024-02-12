@@ -101,9 +101,9 @@ sns.histplot(x=result_df['FailCountBeforePass'], kde=True, fill=True, ax=axs[1])
 axs[1].set_title('Histogram')
 
     # Plot 3: Skewness Plot
-sns.set(style="whitegrid")
-sns.kdeplot(result_df['FailCountBeforePass'], ax=axs[2])
-axs[2].set(xlabel="Skewed Data", ylabel="Density", title="Skewness Plot")
+# sns.set(style="whitegrid")
+# sns.kdeplot(result_df['FailCountBeforePass'], ax=axs[2])
+# axs[2].set(xlabel="Skewed Data", ylabel="Density", title="Skewness Plot")
 
 plt.tight_layout()
 st.pyplot(fig)
