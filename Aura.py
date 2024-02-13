@@ -79,15 +79,24 @@ gmaw_butt_join_df = gmaw_butt_df[gmaw_butt_df['WELDPOSITION'] == selected_joint_
 
 # plot_distribution(gmaw_butt_join_df,'WELDPOSITION',f'Distribution of jointype (BUTT, TEE, LAP) in {selected_weld_process} and in {selected_joint_type} in {selected_joint_position_type} position ')
 # st.pyplot(plt)
-unique_df = gmaw_butt_join_df.groupby(['LESSON_NUM','result'])['USERNAME'].nunique().reset_index()
-plt.figure(figsize = (8,5),dpi= 300)
-order = ['pass', 'fail']
-ax = sns.barplot(x='LESSON_NUM', y='USERNAME', hue='result',
-                 data=unique_df,hue_order =['pass'])
-ax.bar_label(ax.containers[0]);
-plt.title('Passed students lesson number wise')
+total_unique_students = gmaw_butt_join_df.groupby('LESSON_NUM')['USERNAME'].nunique().reset_index()
+passing_students = gmaw_butt_join_df[gmaw_butt_join_df['result'] == 'pass'].groupby('LESSON_NUM')['USERNAME'].nunique().reset_index()
+
+merged_df = pd.merge(total_unique_students, passing_students, on='LESSON_NUM', suffixes=('_total', '_pass'))
+merged_df['Passing_Percentage'] = (merged_df['USERNAME_pass'] / merged_df['USERNAME_total']) * 100
+
+plt.figure(figsize=(10, 6))
+sns.barplot(data=merged_df, x='LESSON_NUM', y='USERNAME_total', color='skyblue', label='Total Students')
+sns.barplot(data=merged_df, x='LESSON_NUM', y='USERNAME_pass', color='coral', label='Passing Students')
+
+for index, row in merged_df.iterrows():
+    plt.text(row.name, row['USERNAME_total'], f'{row["Passing_Percentage"]:.0f}%', color='black', ha="center")
+
+plt.title('Total Unique Students Attempting and Passing Lessons')
 plt.xlabel('Lesson Number')
-plt.ylabel('No of students')
-plt.legend(title='Result', loc='upper right')
+plt.ylabel('Count')
+plt.xticks(range(0, 15), range(1, 16))  # Set x-ticks from 1 to 15
+plt.legend()
+plt.tight_layout()
 plt.show()
 st.pyplot(plt)
